@@ -22,7 +22,15 @@
         <div class="hidden-text">
             <p>{{ original_text }}</p>
             <br>
-            <a href="/" class="btn" style="font-size: 14px; padding: 10px 20px; opacity: 0.8;">Neuer Text</a>
+            <div class="share-container">
+                <a href="/" class="btn" style="font-size: 14px; padding: 10px 20px; opacity: 0.8;">Neuer Text</a>
+                {% if share_id and not is_shared %}
+                <button onclick="copyShareLink('{{ share_id }}')" class="btn-share">Teilen</button>
+                {% endif %}
+                {% if is_shared %}
+                <p style="font-size: 12px; opacity: 0.7; margin-top: 10px;">(Geteilter Inhalt)</p>
+                {% endif %}
+            </div>
         </div>
 
     </div>
@@ -34,6 +42,21 @@
                 document.body.classList.add('show-text');
             }, 10000);
         });
+
+        function copyShareLink(shareId) {
+            const link = window.location.origin + "/share?id=" + shareId;
+            navigator.clipboard.writeText(link).then(() => {
+                const btn = document.querySelector('.btn-share');
+                const originalText = btn.innerText;
+                btn.innerText = "Link kopiert!";
+                setTimeout(() => {
+                    btn.innerText = originalText;
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+                alert("Konnte Link nicht kopieren: " + link);
+            });
+        }
     </script>
 </body>
 

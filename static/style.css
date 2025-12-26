@@ -94,19 +94,35 @@ textarea:focus {
     height: 280px;
     object-fit: cover;
     border-radius: 15px;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.5);
-    opacity: 0; /* Starte unsichtbar */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    /* Starte unsichtbar */
     animation: fadeIn 1.5s ease forwards;
-    border: 1px solid rgba(255,255,255,0.2);
+    border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-.fade-img:nth-child(1) { animation-delay: 0s; }
-.fade-img:nth-child(2) { animation-delay: 1.5s; }
-.fade-img:nth-child(3) { animation-delay: 3.0s; }
+.fade-img:nth-child(1) {
+    animation-delay: 0s;
+}
+
+.fade-img:nth-child(2) {
+    animation-delay: 1.5s;
+}
+
+.fade-img:nth-child(3) {
+    animation-delay: 3.0s;
+}
 
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .hidden-text {
@@ -126,8 +142,8 @@ textarea:focus {
     font-size: 28px;
     line-height: 1.6;
     color: #fff;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
-    background: rgba(0,0,0,0.4);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.4);
     padding: 30px;
     border-radius: 20px;
     backdrop-filter: blur(5px);
@@ -136,9 +152,38 @@ textarea:focus {
 /* State changes for JS */
 body.show-text .image-stack {
     opacity: 0;
+    pointer-events: none;
 }
 
 body.show-text .hidden-text {
     opacity: 1;
     pointer-events: auto;
+}
+
+.share-container {
+    margin-top: 20px;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.btn-share {
+    background: linear-gradient(45deg, #00b09b, #96c93d);
+    border: none;
+    padding: 10px 25px;
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-share:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(150, 201, 61, 0.4);
 }

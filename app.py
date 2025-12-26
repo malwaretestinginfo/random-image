@@ -1,10 +1,23 @@
 import random
 import requests
-from flask import Flask, render_template, request
+import string
+from flask import Flask, render_template, request, url_for
 from bs4 import BeautifulSoup
-import time
 
 app = Flask(__name__)
+
+# Simple in-memory storage for shared results
+# Structure: { 'id_string': {'text': '...', 'images': [...]} }
+SHARED_CONTENT = {}
+
+def generate_share_id():
+    """
+    Generates ID in format: XXXX-XXXX-16CHARS-ROTERSTEINBESTE
+    """
+    def r(length):
+        return ''.join(random.choices(string.ascii_uppercase + string.digits, k=length))
+    
+    return f"{r(4)}-{r(4)}-{r(16)}-ROTERSTEINBESTE"
 
 def get_google_images(query):
     """
@@ -82,10 +95,27 @@ def index():
                     picked_url = random.choice(top_10)
             
             final_images.append(picked_url)
+        
+        # Determine share ID and store data
+        share_id = generate_share_id()
+        SHARED_CONTENT[share_id] = {
+            'text': text,
+            'images': final_images
+        }
             
-        return render_template('result.html', images=final_images, original_text=text)
+        return render_template('result.html', images=final_images, original_text=text, share_id=share_id)
 
     return render_template('index.html')
+
+@app.route('/share')
+def share():
+    share_id = request.args.get('id')
+    content = SHARED_CONTENT.get(share_id)
+    
+    if not content:
+        return render_template('index.html', error="Dieser Link ist ungültig oder abgelaufen.")
+        
+    return render_template('result.html', images=content['images'], original_text=content['text'], share_id=share_id, is_shared=True)
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
