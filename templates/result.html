@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visualisierung</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <div class="container">
+
+        <!-- Images Container -->
+        <div class="image-stack">
+            {% for img_url in images %}
+            <img src="{{ img_url }}" alt="Random Image" class="fade-img">
+            {% endfor %}
+        </div>
+
+        <!-- Text Container (Initially Hidden) -->
+        <div class="hidden-text">
+            <p>{{ original_text }}</p>
+            <br>
+            <a href="/" class="btn" style="font-size: 14px; padding: 10px 20px; opacity: 0.8;">Neuer Text</a>
+        </div>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Wait 10 seconds, then toggle the class
+            setTimeout(() => {
+                document.body.classList.add('show-text');
+            }, 10000);
+        });
+    </script>
+</body>
+
+</html>
